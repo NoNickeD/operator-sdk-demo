@@ -1,0 +1,7 @@
+apiVersion: monitoring.vodafone.com/v1alpha1
+kind: PodNotifRestart
+metadata:
+  name: test-notif
+  namespace: default
+spec:
+  minRestarts: 3

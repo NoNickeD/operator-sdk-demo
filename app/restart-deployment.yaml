@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restart-test
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: restart-test
+  template:
+    metadata:
+      labels:
+        app: restart-test
+    spec:
+      containers:
+      - name: restart-test
+        image: busybox
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          echo "Running for 1 minutes...";
+          sleep 60;
+          echo "Exiting to trigger restart...";
+          exit 0;
+        resources:
+          requests:
+            cpu: "10m"
+            memory: "16Mi"
+          limits:
+            cpu: "100m"
+            memory: "64Mi"

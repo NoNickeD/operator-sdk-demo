@@ -1,0 +1,9 @@
+apiVersion: monitoring.vodafone.com/v1alpha1
+kind: PodNotifRestart
+metadata:
+  labels:
+    app.kubernetes.io/name: operator-sdk-demo
+    app.kubernetes.io/managed-by: kustomize
+  name: podnotifrestart-sample
+spec:
+  # TODO(user): Add fields here

@@ -1,0 +1,46 @@
+version: "3"
+
+tasks:
+  create-local-cluster:
+    desc: "Creates a local Kubernetes cluster using KinD for development purposes."
+    cmds:
+      - echo "🚀 Initiating creation of a local Kubernetes cluster..."
+      - kind create cluster --config kind-config.yaml --name srekubecraft-operator-sdk
+      - kind get clusters
+    silent: true
+
+  setup-kube-context:
+    desc: "Configures the Kubernetes context to interact with the newly created local cluster."
+    cmds:
+      - echo "🔧 Configuring Kubernetes context for local cluster usage..."
+      - kubectl cluster-info --context kind-srekubecraft-operator-sdk
+    silent: true
+
+  delete-local-cluster:
+    desc: "Deletes the local Kubernetes cluster to clean up resources."
+    deps:
+      - setup-kube-context
+    cmds:
+      - echo "🗑️ Proceeding to delete the local Kubernetes cluster..."
+      - kind delete cluster -n srekubecraft-operator-sdk
+    silent: true
+
+  install-metric-server:
+    desc: "Installs the Kubernetes Metrics Server to enable resource usage monitoring."
+    deps:
+      - setup-kube-context
+    cmds:
+      - echo "📊 Deploying the Kubernetes Metrics Server..."
+      - helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+      - helm repo update metrics-server
+      - helm install metrics-server metrics-server/metrics-server --namespace kube-system --set args[0]="--kubelet-insecure-tls"
+    silent: true
+
+  full-deploy-local:
+    desc: "Executes a complete deployment of all components in the local cluster, ideal for testing or demonstration."
+    cmds:
+      - echo "🚀 Starting full deployment of all necessary components in the local cluster..."
+      - task: create-local-cluster
+      - task: setup-kube-context
+      - task: install-metric-server
+    silent: true

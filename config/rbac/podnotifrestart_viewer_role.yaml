@@ -1,0 +1,23 @@
+# permissions for end users to view podnotifrestarts.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: operator-sdk-demo
+    app.kubernetes.io/managed-by: kustomize
+  name: podnotifrestart-viewer-role
+rules:
+- apiGroups:
+  - monitoring.vodafone.com
+  resources:
+  - podnotifrestarts
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - monitoring.vodafone.com
+  resources:
+  - podnotifrestarts/status
+  verbs:
+  - get

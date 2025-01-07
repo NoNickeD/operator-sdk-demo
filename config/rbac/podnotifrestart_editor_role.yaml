@@ -1,0 +1,27 @@
+# permissions for end users to edit podnotifrestarts.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: operator-sdk-demo
+    app.kubernetes.io/managed-by: kustomize
+  name: podnotifrestart-editor-role
+rules:
+- apiGroups:
+  - monitoring.vodafone.com
+  resources:
+  - podnotifrestarts
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - monitoring.vodafone.com
+  resources:
+  - podnotifrestarts/status
+  verbs:
+  - get
